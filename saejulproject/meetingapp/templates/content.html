@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block contents %}
+{% load static %}
+
+<body>
+	<table class ="table table-hover">
+		<thead class ="thead-light">
+		   <tr>
+			   <th scope = "col">idx</th>
+			   <th scope = "col">start_time</th>
+			   <th scope = "col">end_time</th>
+			   
+			   <th scope = "col">content</th>
+		  </tr>
+		</thead>
+
+		<tbody>
+			{% for item in texts %}
+			<tr>
+				<td> {{item.idx}} </td>
+				<td> {{item.start_t}} </td>
+				<td> {{item.end_t}} </td>
+				
+				<td> <a href="{% url 'detail' item.idx %}"> {{item.content}} </td> </a>
+
+                         </tr>
+	        </tbody>
+
+		       {% endfor %}
+		       
+
+
+</body>
+
+{% endblock %}

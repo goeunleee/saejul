@@ -1,0 +1,20 @@
+{% extends "base.html"  %}
+{% block contents %}
+{% load static %} 
+[원본 content]<br>{{text.content}} 
+{% csrf_token %}
+<br>
+<hr>
+수정할 내용<br>
+
+<form method="POST">
+
+{% csrf_token %} 
+<textarea cols=80 rows=10 name = "content">{{text.content}}</textarea>
+
+<input class ="btn btn-dark" type = "submit" value = "수정하기" > 
+</form> 
+
+{% endblock %} 
+
+
