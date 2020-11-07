@@ -285,7 +285,7 @@ input[type=text]:placeholder {
     <form method="POST" action="{% url 'login'%}">
       {% csrf_token %}
       <input type="text" id="username" class="fadeIn second" name="username" placeholder="아이디를 입력하세요">
-      <input type="text" id="password" class="fadeIn third" name="password" placeholder="패스워드를 입력하세요">
+      <input type="password" id="password" class="fadeIn third" name="password" placeholder="패스워드를 입력하세요">
       <input type="submit" class="fadeIn fourth" value="로그인">
     </form>
 

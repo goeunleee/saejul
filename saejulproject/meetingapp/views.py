@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from .models import Record,User
 import os
+import threading
 # Create your views here.
 
 class AudioFileCreateViewMixin(View):
@@ -29,11 +30,11 @@ class AudioFileCreateViewMixin(View):
             'url': result.audio_file.url,
         }, status=201)
 
-def contents(request,record_id) : 
-    texts = Text.objects.all().filter(record_id=record_id)
-    return render(request, 'content.html', {'texts' : texts} )
-
-
+def contents(request,record_id) :
+    filename = Record.objects.get(record_id=record_id).audio_file
+    texts = Text.objects.all().filter(record_id=record_id).order_by('start_t')
+    filename = str(filename)[:-4]
+    return render(request, 'content.html', {'texts' : texts, 'filename':filename} )
 
 def detail(request,idx) :
     text = Text.objects.get( idx = idx)
@@ -46,9 +47,11 @@ def detail(request,idx) :
     else:
         return render(request, 'detail.html' ,{'text' : text} ) 
 
+def sttThread(record_id):
+    print(os.system('/opt/test.sh '+record_id))
+
 def recorde(request):
     if request.method =='POST':
-        
         title = request.POST['title']
         audio_file = request.FILES['audio_file']
         people = request.POST['people']
@@ -57,7 +60,9 @@ def recorde(request):
         try:
             Record.objects.create(title=title, audio_file=audio_file,people=people,location=location,user_id=user_id )
             record_id = Record.objects.filter(user_id=user_id).last().record_id
-            print(os.system('/opt/test.sh '+str(record_id)))
+#            print(os.system('/opt/test.sh '+str(record_id)))
+            thread = threading.Thread(target = sttThread, args = (str(record_id),))
+            thread.start()
         except: 
             pass
         return redirect('recorde')
