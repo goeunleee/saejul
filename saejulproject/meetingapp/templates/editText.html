@@ -1,0 +1,27 @@
+{% extends "base.html"  %}
+{% block contents %}
+{% load static %}
+
+<form method="POST">
+
+
+
+
+    <hr>
+    텍스트 원본 <br> 발언자 이름 : {{text.speaker_name}} <br> 내용 : {{text.content}}
+    {% csrf_token %}
+    <br>
+    <hr>
+    수정할 내용
+    <br>
+
+
+    {% csrf_token %}
+
+    발언자 이름 : <input type="text" placeholder="{{text.speaker_name}}" name="speaker_name"> <br><br>
+    <textarea cols=80 rows=10 name="content">{{text.content}}</textarea>
+    <br><br>
+    <input class="btn btn-dark" type="submit" value="내용 수정">
+</form>
+
+{% endblock %}

@@ -23,6 +23,10 @@ import registerapp.views
 from mainapp import views
 from meetingapp import views
 from registerapp import views
+
+
+handler400=''
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', mainapp.views.main, name='main'),
@@ -30,10 +34,11 @@ urlpatterns = [
     path('login/', registerapp.views.login, name='login'),
     path('signup/', registerapp.views.signup, name='signup'),
     path('logout/', registerapp.views.logout, name='logout'),
-    path('app_login/', registerapp.views.app_login),
-    path('contents/<int:record_id>' , meetingapp.views.contents, name = 'contents') ,
-    path('detail/<int:idx>/', meetingapp.views.detail, name='detail'),
+    path('text/<int:record_id>' , meetingapp.views.text, name = 'contents') ,
+    path('editText/<int:idx>/', meetingapp.views.editText, name='editText'),
     path('recode/<int:record_id>/delete',meetingapp.views.delete, name='delete'),
+    path('login_app/', registerapp.views.login_app),
+    path('register_app/', registerapp.views.register_app),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -53,21 +53,26 @@ def logout(request):
     return render(request, 'login.html')
 
 
-def app_login(request):
-    if request.method == 'POST': 
-        print("리퀘스트 로그" + str(request.body)) 
-
-        id = request.POST.get('userid', '') 
-
-        pw = request.POST.get('userpw', '')
-
-        print("id = " + id + " pw = " + pw) 
-        result = auth.authenticate(username=id, password=pw) 
-        if result: print("로그인 성공!") 
-        return JsonResponse({'code': '0000', 'msg': '로그인성공입니다.'}, status=200) 
-        
+#######################
+# App 로그인
+def login_app(request):
+    print("Request Log : " + str(request.body)) 
+    id = request.POST.get('user_id', '') 
+    pw = request.POST.get('passwd', '')
+    print("user_id = " + id + " passwd = " + pw) 
+    result = auth.authenticate(username=id, password=pw) 
+    if result: 
+        print("Login Success") 
+        return JsonResponse({'result':'Success', 'status':1}, status=200) 
     else: 
-        print("실패") 
-        return JsonResponse({'code': '1001', 'msg': '로그인실패입니다.'}, status=200)
+        print("Login Failed")     
+    return JsonResponse({'result':'Failed', 'status':0}, status=200)
 
-   
+
+def register_app(request):
+    print("Request Log : " + str(request.body))
+    id = request.POST.get('user_id', '')
+    pw = request.POST.get('passwd', '')
+    print("user_id = " + id + " passwd = " + pw)
+    user = User.objects.create_user(username=request.POST['user_id'], password=request.POST['password'])
+    return JsonResponse({'result':'Success', 'status':0}, status=200)

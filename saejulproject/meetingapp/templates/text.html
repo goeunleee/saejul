@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block contents %}
+{% load static %}
+<script type="text/javascript">
+ 
+
+</script>
+<body>
+	<audio controls>
+		<source src="/media/{{filename}}.flac"></audio>
+	<audio controls>
+		<source src="/media/{{filename}}.wav"></audio>
+
+	<table class="table table-hover">
+		<thead class="thead-light">
+			<tr>
+				<th scope="col">idx</th>
+				<th scope="col">speaker</th>
+				<th scope="col">speaker name</th>
+				<th scope="col">start_time</th>
+				<th scope="col">end_time</th>
+				<th scope="col">play</th>
+				<th scope="col">content</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% for item in texts %}
+			<tr>
+				<td> {{item.idx}} </td>
+				<td>{{item.speaker_id}}</td>
+				<td ><a href="#">{{item.speaker_name}}</td>
+				<td> {{item.start_t}} </td>
+				<td> {{item.end_t}} </td>
+				<td> <audio controls>
+						<source src="/media/{{filename}}/{{item.idx}}.flac"></audio></td>
+				<td> <a href="{% url 'editText' item.idx %}"> {{item.content}} </td> </a>
+
+			</tr>
+
+			{% endfor %}
+		</tbody>
+
+
+
+
+</body>
+
+{% endblock %}
