@@ -74,5 +74,9 @@ def register_app(request):
     id = request.POST.get('user_id', '')
     pw = request.POST.get('passwd', '')
     print("user_id = " + id + " passwd = " + pw)
-    user = User.objects.create_user(username=request.POST['user_id'], password=request.POST['password'])
-    return JsonResponse({'result':'Success', 'status':0}, status=200)
+
+    if User.objects.filter(username = id).exists() == True:
+        return JsonResponse({'result':'Exist', 'status':0}, status=200)
+    else:
+        user = User.objects.create_user(username=request.POST['user_id'], password=request.POST['password'])
+        return JsonResponse({'result':'Success', 'status':0}, status=200)

@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+from django.conf.urls import url
 import mainapp.views
 from django.conf import settings
 import meetingapp.views
@@ -37,8 +38,11 @@ urlpatterns = [
     path('text/<int:record_id>' , meetingapp.views.text, name = 'contents') ,
     path('editText/<int:idx>/', meetingapp.views.editText, name='editText'),
     path('recode/<int:record_id>/delete',meetingapp.views.delete, name='delete'),
-    path('login_app/', registerapp.views.login_app),
-    path('register_app/', registerapp.views.register_app),
+
+    path('login_app/', registerapp.views.login_app, name='login_app'),
+    path('register_app/', registerapp.views.register_app, name='register_app'),
+    path('record_app/<str:user_id>', meetingapp.views.record_app, name="record_app"),
+    path('text_app/<str:record_id>', meetingapp.views.text_app, name="text_app"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

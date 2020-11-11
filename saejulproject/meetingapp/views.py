@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from datetime import date
 from django import http
+from django.http import JsonResponse
 from django.views.generic.base import View
 from .models import Text
 from django.http import HttpResponse, HttpResponseRedirect,Http404
 from django.shortcuts import redirect
+from rest_framework import serializers
 from .models import Record,User
 import os
 import threading
@@ -97,3 +99,34 @@ def delete(request,record_id):
     recode.delete()
     return redirect('recorde')
 
+#######################
+# model Class
+class RecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Record
+        exclude = [
+            'user_id',
+            'audio_file',
+            'deleted'
+        ]
+
+class TextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Text
+        exclude = [
+            'record_id',
+        ]
+
+#######################
+# App
+def record_app(request, user_id):
+    record = Record.objects.all().filter(user_id=user_id)
+    record_serializer = RecordSerializer(record, many=True)
+    record_json = record_serializer.data[:]
+    return JsonResponse(record_json, status=200, safe=False)
+
+def text_app(request, record_id):
+    text = Text.objects.all().filter(record_id=record_id)
+    text_serializer = TextSerializer(text, many=True)
+    text_json = text_serializer.data[:]
+    return JsonResponse(text_json, status=200, safe=False)
