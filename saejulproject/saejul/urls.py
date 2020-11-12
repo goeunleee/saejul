@@ -38,11 +38,13 @@ urlpatterns = [
     path('text/<int:record_id>' , meetingapp.views.text, name = 'contents') ,
     path('editText/<int:idx>/', meetingapp.views.editText, name='editText'),
     path('recode/<int:record_id>/delete',meetingapp.views.delete, name='delete'),
+    path('recordtest/',meetingapp.views.recordtest,name='recordtest'),
 
     path('login_app/', registerapp.views.login_app, name='login_app'),
     path('register_app/', registerapp.views.register_app, name='register_app'),
     path('record_app/<str:user_id>', meetingapp.views.record_app, name="record_app"),
     path('text_app/<str:record_id>', meetingapp.views.text_app, name="text_app"),
+    path('mic_app/', meetingapp.views.mic_app, name="mic_app"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

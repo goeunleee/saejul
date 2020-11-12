@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+{% block contents %}
+{% load static %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,13 +15,17 @@
     <input type=checkbox id="chk-hear-mic"><label for="chk-hear-mic">마이크 소리 듣기</label>
     <button id="record">녹음</button>
     <button id="stop">정지</button>
+    
     <div id="sound-clips"></div>
+    
+    <input type="file" name="audio_file">
+
     <script>
         const record = document.getElementById("record")
         const stop = document.getElementById("stop")
         const soundClips = document.getElementById("sound-clips")
         const chkHearMic = document.getElementById("chk-hear-mic")
-
+       
         const audioCtx = new(window.AudioContext || window.webkitAudioContext)() // 오디오 컨텍스트 정의
 
         const analyser = audioCtx.createAnalyser()
@@ -47,7 +56,6 @@
 
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(stream => {
-
                     const mediaRecorder = new MediaRecorder(stream)
                     
                     chkHearMic.onchange = e => {
@@ -84,12 +92,13 @@
                         const clipLabel = document.createElement('p')
                         const audio = document.createElement('audio')
                         const deleteButton = document.createElement('button')
-
+    
                         clipContainer.classList.add('clip')
                         audio.setAttribute('controls', '')
-                        deleteButton.innerHTML = "삭제"
+                        deleteButton.innerHTML = "삭제하기"
                         clipLabel.innerHTML = clipName
-
+                        
+                        
                         clipContainer.appendChild(audio)
                         clipContainer.appendChild(clipLabel)
                         clipContainer.appendChild(deleteButton)
@@ -102,14 +111,29 @@
                         })
                         chunks = []
                         const audioURL = URL.createObjectURL(blob)
+
                         audio.src = audioURL
+                        
+                        console.log("url is "+audioURL)
                         console.log("audio play stopped")
+                        
+                        
+                        const h1 = document.createElement('h1')
+                        var audio_file = document.getElementsByName('audio_file')
+                        audio_file.innerHTML = "<input type=\"file\" name=\"audio_file\" value="+audioURL+">";
+
+                        audio_file.values = audioURL
+                        h1.innerHTML = audioURL
+                        clipContainer.appendChild(h1)
+                        
 
                         deleteButton.onclick = e => {
                             evtTgt = e.target
                             evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode)
                         }
+                        
                     }
+                    
 
                     mediaRecorder.ondataavailable = e => {
                         chunks.push(e.data)
@@ -120,4 +144,12 @@
                 })
         }
     </script>
+     
+     
+    
+        
 </body></html>
+
+
+{% endblock contents %}  
+

@@ -12,6 +12,9 @@ import os
 import threading
 # Create your views here.
 from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.conf import settings
 
 class AudioFileCreateViewMixin(View):
     model = None
@@ -33,6 +36,9 @@ class AudioFileCreateViewMixin(View):
             'url': result.audio_file.url,
         }, status=201)
 
+def sttThread(record_id):
+    print(os.system('/opt/test.sh '+record_id))
+
 @login_required
 def text(request,record_id) :
     try:    
@@ -41,7 +47,8 @@ def text(request,record_id) :
         filename = str(filename)[:-4]
     except :
         pass    
-    return render(request, 'text.html', {'texts' : texts, 'filename':filename} )
+    return render(request, 'text.html', {'texts' : texts, 'filename':filename})
+
 @login_required
 def editText(request,idx) :
     text = Text.objects.get( idx = idx)
@@ -63,9 +70,6 @@ def editText(request,idx) :
     else:
         return render(request, 'editText.html' ,{'text' : text} ) 
 
-def sttThread(record_id):
-    print(os.system('/opt/test.sh '+record_id))
-
 @login_required
 def recorde(request):
     if request.user.is_anonymous:
@@ -79,7 +83,6 @@ def recorde(request):
         try:
             Record.objects.create(title=title, audio_file=audio_file,people=people,location=location,user_id=user_id )
             record_id = Record.objects.filter(user_id=user_id).last().record_id
-#            print(os.system('/opt/test.sh '+str(record_id)))
             thread = threading.Thread(target = sttThread, args = (str(record_id),))
             thread.start()
         except :
@@ -129,4 +132,28 @@ def text_app(request, record_id):
     text = Text.objects.all().filter(record_id=record_id)
     text_serializer = TextSerializer(text, many=True)
     text_json = text_serializer.data[:]
+
     return JsonResponse(text_json, status=200, safe=False)
+
+def mic_app(request):
+#    title = request.POST['title']
+#    people = request.POST['people']
+#    location = request.POST['location']
+    user_id = request.POST['user_id']
+
+    audio_file = request.FILES['file']
+    path = default_storage.save(str(audio_file), ContentFile(audio_file.read()))
+    tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+    
+#    try:
+#        Record.objects.create(title=title, audio_file=audio_file,people=people,location=location,user_id=user_id)
+#        record_id = Record.objects.filter(user_id=user_id).last().record_id
+#        thread = threading.Thread(target = sttThread, args = (str(record_id),))
+#        thread.start()
+#    except :
+#        pass
+    return JsonResponse({'result':'Success', 'status':1}, status=200) 
+
+
+def recordtest(request):
+    return  render(request,'RecordTest.html')

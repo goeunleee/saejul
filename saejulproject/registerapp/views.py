@@ -78,5 +78,5 @@ def register_app(request):
     if User.objects.filter(username = id).exists() == True:
         return JsonResponse({'result':'Exist', 'status':0}, status=200)
     else:
-        user = User.objects.create_user(username=request.POST['user_id'], password=request.POST['password'])
-        return JsonResponse({'result':'Success', 'status':0}, status=200)
+        user = User.objects.create_user(username=request.POST['user_id'], password=request.POST['passwd'])
+        return JsonResponse({'result':'Success', 'status':1}, status=200)
