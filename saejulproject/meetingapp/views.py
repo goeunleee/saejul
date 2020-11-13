@@ -90,6 +90,8 @@ def recorde(request):
         return redirect('recorde')
     else:
         #recorde = Record.objects.all().filter(user_id=request.user.username).first()
+        #record = Record.objects.all().filter(user_id=request.user.username)
+        
         recorde = Record.objects.all()
         return render(request,'recorde.html',{'recorde':recorde})
 
@@ -135,25 +137,30 @@ def text_app(request, record_id):
 
     return JsonResponse(text_json, status=200, safe=False)
 
+def removeSpec(s):
+    if (s[0] == s[-1]) and s.startswith(("'", '"')):
+            return s[1:-1]
+    return s
+
 def mic_app(request):
-#    title = request.POST['title']
-#    people = request.POST['people']
-#    location = request.POST['location']
-    user_id = request.POST['user_id']
+    title = removeSpec(request.POST['title'])
+    people = request.POST['people']
+    location = removeSpec(request.POST['location'])
+    user_id = removeSpec(request.POST['user_id'])
 
     audio_file = request.FILES['file']
     path = default_storage.save(str(audio_file), ContentFile(audio_file.read()))
     tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-    
-#    try:
-#        Record.objects.create(title=title, audio_file=audio_file,people=people,location=location,user_id=user_id)
-#        record_id = Record.objects.filter(user_id=user_id).last().record_id
-#        thread = threading.Thread(target = sttThread, args = (str(record_id),))
-#        thread.start()
-#    except :
-#        pass
-    return JsonResponse({'result':'Success', 'status':1}, status=200) 
 
+    print(title, people, location, user_id)    
+    try:
+        Record.objects.create(title=title, audio_file=audio_file,people=people,location=location,user_id=user_id)
+        record_id = Record.objects.filter(user_id=user_id).last().record_id
+        thread = threading.Thread(target = sttThread, args = (str(record_id),))
+        thread.start()
+    except :
+        pass
+    return JsonResponse({'result':'Success', 'status':1}, status=200) 
 
 def recordtest(request):
     return  render(request,'RecordTest.html')

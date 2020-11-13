@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% block contents %}
 {% load static %}
-<div style="padding-left: 450px; padding-top: 100px;">
-<h1>  세줄 프로젝트에 오신걸 환영합니다^^</h1>
-    <img src="https://img.insight.co.kr/static/2019/06/05/700/45ix6h1mj26b7457p5a3.jpg"  >
+<style>
+    .wrap,hr{width:70%; text-align:center; margin:0px auto;}
+	.wrap img{width:100%; height:auto}
+</style>
+<br>
+<div class="wrap">  <img src="/static/logo.png" style="margin-left: -5%;"> </div>  
+
+<div class="wrap">  <img src="/static/line.png" > </div>  
+<div class="wrap">  <img src="/static/mainimage.png"> </div>  
+ <div class="wrap"><img src="/static/maininfo.png" style="height: 90%; width: 85%;"></div>  
 </div>
 {% endblock contents %}  
