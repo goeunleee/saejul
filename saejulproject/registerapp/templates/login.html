@@ -1,6 +1,4 @@
-{% extends "base.html" %}
-{% block contents %}
-{% load static %}
+
 
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -325,7 +323,7 @@ color: #cccccc;
 </style>
 
 
-<div class="wrapper fadeInDown">
+<div class="wrapper fadeInDown" >
   <div id="formContent">
     <!-- Tabs Titles -->
 
@@ -335,7 +333,7 @@ color: #cccccc;
     </div>
 
     <!-- Login Form -->
-    <form id="login"  method="POST" action="{% url 'login'%}">
+    <form id="login"  method="POST" action="{% url 'login'%}" >
       {% csrf_token %}
       <input type="text" id="username" class="fadeIn second" name="username" placeholder="아이디를 입력하세요">
       <input type="password" id="password" class="fadeIn third" name="password" placeholder="패스워드를 입력하세요">
@@ -347,14 +345,13 @@ color: #cccccc;
     <!-- Remind Passowrd -->
     <div id="formFooter">
       <a class="underlineHover" href="{% url 'signup'%}">회원가입</a>
+    
        |
-      <a class="underlineHover" href="#">비밀번호가 기억이 안 나시나요?</a>
+      <a class="underlineHover" href="{% url 'main' %}">홈으로 돌아가기</a>
     </div>
 
   </div>
 </div>
 
-
-{% endblock contents %}  
 
 

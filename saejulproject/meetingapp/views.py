@@ -89,10 +89,9 @@ def recorde(request):
             pass
         return redirect('recorde')
     else:
-        #recorde = Record.objects.all().filter(user_id=request.user.username).first()
-        #record = Record.objects.all().filter(user_id=request.user.username)
-        
-        recorde = Record.objects.all()
+       # recorde = Record.objects.all().filter(user_id=request.user.username)
+     
+        recorde = Record.objects.all().filter(user_id =request.user.username)
         return render(request,'recorde.html',{'recorde':recorde})
 
 @login_required
