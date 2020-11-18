@@ -121,6 +121,15 @@ class TextSerializer(serializers.ModelSerializer):
             'record_id',
         ]
 
+class SpeakerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Text
+        fields = [
+            'record_id',
+            'speaker_id',
+            'speaker_name',
+        ]
+
 #######################
 # App
 def record_app(request, user_id):
@@ -133,7 +142,6 @@ def text_app(request, record_id):
     text = Text.objects.all().filter(record_id=record_id)
     text_serializer = TextSerializer(text, many=True)
     text_json = text_serializer.data[:]
-
     return JsonResponse(text_json, status=200, safe=False)
 
 def removeSpec(s):
@@ -160,6 +168,28 @@ def mic_app(request):
     except :
         pass
     return JsonResponse({'result':'Success', 'status':1}, status=200) 
+
+def edit_text_app(request):
+    if request.method =="POST" :
+        text = Text.objects.get(idx = request.POST['idx'])
+        text.content = request.POST['content']
+        text.save()
+
+        print(request.POST['idx'])
+        print(request.POST['content'])
+    return JsonResponse({'result':'Success', 'status':1}, status=200) 
+
+def edit_speaker_app(request, record_id):
+    if request.method =="POST" :
+        # speaker_name        
+        speaker_name = Text.objects.all().filter(speaker_id = request.POST['speaker_id'], record_id = record_id)
+        speaker_name.update(speaker_name = request.POST['speaker_name'])
+        return JsonResponse({'result':'Success', 'status':1}, status=200) 
+    else :
+        speaker = Text.objects.all().filter(record_id=record_id).values('speaker_id', 'speaker_name', 'record_id').distinct()
+        speaker_serializer = SpeakerSerializer(speaker, many=True)
+        speaker_json = speaker_serializer.data[:]
+        return JsonResponse(speaker_json, status=200, safe=False)
 
 def recordtest(request):
     return  render(request,'RecordTest.html')

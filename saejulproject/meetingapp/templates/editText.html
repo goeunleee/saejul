@@ -2,26 +2,31 @@
 {% block contents %}
 {% load static %}
 
+<div class="container" style="width: 1200px; ">
+    <h3><br><br>발언 내용 편집하기 <br><hr></h3>
+</div>
+<div class="container-fluid" style="width: 1200px; ">
 <form method="POST">
 
 
 
 
-    <hr>
-    텍스트 원본 <br> 발언자 이름 : {{text.speaker_name}} <br> 내용 : {{text.content}}
+    <h5>텍스트 원본</h5>
+    <br> 발언자 이름 : {{text.speaker_name}} <br> 내용 : {{text.content}}
     {% csrf_token %}
     <br>
     <hr>
-    수정할 내용
+    <h5>수정할 내용</h5>
     <br>
 
-
     {% csrf_token %}
-
-    발언자 이름 : <input type="text" placeholder="{{text.speaker_name}}" name="speaker_name"> <br><br>
+   
+    발언자 이름 : <input type="text" placeholder="{{text.speaker_name}}" name="speaker_name">  <br>
     <textarea cols=80 rows=10 name="content">{{text.content}}</textarea>
     <br><br>
-    <input class="btn btn-dark" type="submit" value="내용 수정">
+    <input class="btn btn-primary" type="submit" value="내용 수정">
 </form>
+</div>
+
 
 {% endblock %}

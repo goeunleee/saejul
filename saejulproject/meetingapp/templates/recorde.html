@@ -52,24 +52,26 @@
                     <th scope="col">제목</th>
                     <th scope="col">인원</th>
                     <th scope="col">장소</th>
-                    <th scope="col">발언 내용</th>
+                    <th scope="col">내용 확인</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in recorde %}
-                <tr>
+              
+              <tr>
                     <td>{{item.record_id}}</td>
                     <td>{{item.user_id}}</td>
                     <td>{{item.uploaded_date}}</td>
                     <td>{{item.title}}</td>
                     <td>{{item.people}}</td>
                     <td>{{item.location}}</td>
-                    <td><a href="{% url 'contents' item.record_id %}">{{item.audio_file}}</a></td>
-                    <td><a href="{% url 'delete' item.record_id %}"><button class="btn btn-outline-primary"
+                    <td><a href="{% url 'contents' item.record_id %}"><button type="button" class="btn btn-primary">회의</button>
+                    </a></td>
+                    <td><a href="{% url 'delete' item.record_id %}"><button type="button" class="btn btn-primary"
                                 onclick="return confirm('정말 삭제하시겠습니까?')" alt="삭제">삭제</button></a></td>
                 </tr>
-
+           
             </tbody>
             {% endfor %}
     </div>

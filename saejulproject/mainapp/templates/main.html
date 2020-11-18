@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block contents %}
-{% load staticfiles %}
+{% load static %}
 <style>
     .wrap,hr{width:70%; text-align:center; margin:0px auto;}
 	.wrap img{width:100%; height:auto}
 </style>
 <br>
-<div class="wrap">  <img src="/static/logo.png" style="margin-left: -5%;"> </div>  
+<div class="wrap">  <img src="/static/logo.png" style="margin-left: -5%;"/></div>
 
 <div class="wrap">  <img src="/static/line.png" > </div>  
 <div class="wrap">  <img src="/static/mainimage.png"> </div>  
  <div class="wrap"><img src="/static/maininfo.png" style="height: 90%; width: 85%;"></div>  
 </div>
-{% endblock  %}  
+{% endblock contents %}  

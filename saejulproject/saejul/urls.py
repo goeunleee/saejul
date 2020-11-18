@@ -45,6 +45,9 @@ urlpatterns = [
     path('record_app/<str:user_id>', meetingapp.views.record_app, name="record_app"),
     path('text_app/<str:record_id>', meetingapp.views.text_app, name="text_app"),
     path('mic_app/', meetingapp.views.mic_app, name="mic_app"),
+
+    path('edit_text_app/', meetingapp.views.edit_text_app, name='edit_text_app'), 
+    path('edit_speaker_app/<int:record_id>', meetingapp.views.edit_speaker_app, name='edit_speaker_app'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
