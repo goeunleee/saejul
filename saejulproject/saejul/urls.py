@@ -39,6 +39,10 @@ urlpatterns = [
     path('editText/<int:idx>/', meetingapp.views.editText, name='editText'),
     path('recode/<int:record_id>/delete',meetingapp.views.delete, name='delete'),
     path('recordtest/',meetingapp.views.recordtest,name='recordtest'),
+    path('editdoc/<int:record_id>', meetingapp.views.editdoc, name='editdoc'),
+    path('note/<int:record_id>', meetingapp.views.note, name='note'),
+
+
 
     path('login_app/', registerapp.views.login_app, name='login_app'),
     path('register_app/', registerapp.views.register_app, name='register_app'),

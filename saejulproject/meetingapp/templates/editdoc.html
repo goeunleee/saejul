@@ -1,0 +1,19 @@
+{% extends "base.html"  %}
+{% block contents %}
+{% load static %}
+
+
+<body style="background-color: rgb(218, 233, 245);">
+    
+
+<br><br>
+<div style="margin-left: 10%;">
+ <h3>회의록 편집하기</h3><hr>
+<iframe src="{% url 'note' record_id %}" style=" width: 90%; height: 85%;" name="note">
+</div>  
+
+
+
+</body>    
+    
+  {% endblock %}
